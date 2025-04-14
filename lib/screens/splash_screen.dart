@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
 
@@ -31,9 +31,9 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
     _controller.forward();
 
-    // Navigate to next screen after 3 seconds
-    Future.delayed(const Duration(seconds: 3), () {
-      Get.offAllNamed('/home'); // Replace with your actual home route
+    // Navigate to next screen after 2 seconds
+    Future.delayed(const Duration(seconds: 2), () {
+      Get.offAllNamed('/home');
     });
   }
 
@@ -52,10 +52,38 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
           opacity: _fadeAnimation,
           child: ScaleTransition(
             scale: _scaleAnimation,
-            child: Image.asset(
-              'assets/images/app_logo.png',
-              width: 200,
-              height: 200,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/app_logo.png',
+                  width: 200,
+                  height: 200,
+                ),
+                const SizedBox(height: 20),
+                RichText(
+                  text: const TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Research',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'Pro',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),
