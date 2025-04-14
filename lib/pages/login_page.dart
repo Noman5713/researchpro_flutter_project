@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:researchpro/pages/forgot_password_page.dart';
@@ -23,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   String? passwordError;
   bool showPassword = false;
 
-  void signIn() {
+  void signIn() async {
     // Reset errors
     setState(() {
       emailError = null;
@@ -39,9 +40,9 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     // Validate password
-    if (!Validators.isValidPassword(passwordController.text)) {
+    if (passwordController.text.isEmpty) {
       setState(() {
-        passwordError = 'Password must be at least 8 characters long and contain uppercase, lowercase, number and special character';
+        passwordError = 'Please enter your password';
       });
       return;
     }
@@ -49,27 +50,63 @@ class _LoginPageState extends State<LoginPage> {
     // Show loading circle
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => const Center(
         child: CircularProgressIndicator(),
       ),
     );
 
     // Try to login
-    if (authService.login(emailController.text, passwordController.text)) {
+    try {
+      await authService.login(
+          emailController.text.trim(), passwordController.text.trim());
+
+      // Pop loading circle and navigate to home page
+      if (context.mounted) {
+        Navigator.pop(context); // Pop loading circle
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
       // Pop loading circle
-      Navigator.pop(context);
-      // Navigate to home page
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+
+      // Show error message based on the Firebase error code
+      String errorMessage = 'Invalid email or password';
+
+      if (e.code == 'user-not-found') {
+        errorMessage = 'No user found with this email.';
+      } else if (e.code == 'wrong-password') {
+        errorMessage = 'Wrong password provided.';
+      } else if (e.code == 'invalid-credential') {
+        errorMessage = 'Invalid credentials.';
+      } else if (e.code == 'user-disabled') {
+        errorMessage = 'User account has been disabled.';
+      } else if (e.code == 'too-many-requests') {
+        errorMessage = 'Too many login attempts. Please try again later.';
+      }
+
+      Get.snackbar(
+        'Login Failed',
+        errorMessage,
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
       );
-    } else {
-      // Pop loading circle
-      Navigator.pop(context);
-      // Show error message
+    } catch (e) {
+      // Pop loading circle for any other errors
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+
       Get.snackbar(
         'Error',
-        'Invalid email or password',
+        'An error occurred. Please try again.',
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.red,
         colorText: Colors.white,
@@ -89,6 +126,13 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  // App logo
+                  Image.asset(
+                    'assets/images/app_logo.png',
+                    height: 120,
+                  ),
+                  const SizedBox(height: 20),
+                  
                   // Title
                   const Text(
                     "Login",
@@ -136,7 +180,9 @@ class _LoginPageState extends State<LoginPage> {
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
                           icon: Icon(
-                            showPassword ? Icons.visibility : Icons.visibility_off,
+                            showPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
                             color: Colors.grey,
                           ),
                           onPressed: () {
@@ -243,4 +289,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-} 
+}

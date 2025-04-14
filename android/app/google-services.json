@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "622235004313",
+    "project_id": "researchpro-firebase",
+    "storage_bucket": "researchpro-firebase.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:622235004313:android:ce2b91cee4453afe787708",
+        "android_client_info": {
+          "package_name": "com.example.researchpro_flutter_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVu279KYqaqFMXWfZljtukJvnRYT768pU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

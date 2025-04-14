@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:researchpro/pages/login_page.dart';
@@ -23,7 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   bool showPassword = false;
   bool showConfirmPassword = false;
 
-  void register() {
+  void register() async {
     // Reset errors
     setState(() {
       emailError = null;
@@ -41,7 +42,8 @@ class _RegisterPageState extends State<RegisterPage> {
     // Validate password
     if (!Validators.isValidPassword(passwordController.text)) {
       setState(() {
-        passwordError = 'Password must be at least 8 characters long and contain uppercase, lowercase, number and special character';
+        passwordError =
+            'Password must be at least 8 characters long and contain uppercase, lowercase, number and special character';
       });
       return;
     }
@@ -57,35 +59,74 @@ class _RegisterPageState extends State<RegisterPage> {
     // Show loading circle
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => const Center(
         child: CircularProgressIndicator(),
       ),
     );
 
     // Try to register
-    if (authService.register(emailController.text, passwordController.text)) {
+    try {
+      await authService.register(
+          emailController.text.trim(), passwordController.text.trim());
+
       // Pop loading circle
-      Navigator.pop(context);
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+
       // Show success message
       Get.snackbar(
         'Success',
-        'Registration successful! Please login.',
+        'Registration successful! Please login with your new account.',
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.green,
         colorText: Colors.white,
       );
-      // Navigate to login page
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
-      );
-    } else {
+
+      // Navigate back to login page
+      if (context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
       // Pop loading circle
-      Navigator.pop(context);
-      // Show error message
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+
+      // Show error message based on the Firebase error code
+      String errorMessage = 'Registration failed.';
+
+      if (e.code == 'email-already-in-use') {
+        errorMessage = 'This email address is already in use.';
+      } else if (e.code == 'weak-password') {
+        errorMessage = 'The password provided is too weak.';
+      } else if (e.code == 'invalid-email') {
+        errorMessage = 'The email address is not valid.';
+      } else if (e.code == 'operation-not-allowed') {
+        errorMessage = 'Email/password accounts are not enabled.';
+      }
+
+      Get.snackbar(
+        'Registration Failed',
+        errorMessage,
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    } catch (e) {
+      // Pop loading circle
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+
+      // Show general error message
       Get.snackbar(
         'Error',
-        'Email already exists',
+        'An error occurred. Please try again.',
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.red,
         colorText: Colors.white,
@@ -152,7 +193,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
                           icon: Icon(
-                            showPassword ? Icons.visibility : Icons.visibility_off,
+                            showPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
                             color: Colors.grey,
                           ),
                           onPressed: () {
@@ -186,7 +229,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         prefixIcon: const Icon(Icons.lock_outline),
                         suffixIcon: IconButton(
                           icon: Icon(
-                            showConfirmPassword ? Icons.visibility : Icons.visibility_off,
+                            showConfirmPassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
                             color: Colors.grey,
                           ),
                           onPressed: () {
@@ -269,4 +314,4 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
-} 
+}

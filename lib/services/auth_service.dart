@@ -1,31 +1,59 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 class AuthService {
   static final AuthService _instance = AuthService._internal();
   factory AuthService() => _instance;
   AuthService._internal();
 
-  String? _currentUserEmail;
-  final Map<String, String> _users = {}; // email -> password
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  bool get isLoggedIn => _currentUserEmail != null;
-  String? get currentUserEmail => _currentUserEmail;
+  // Check if a user is logged in
+  bool get isLoggedIn => _auth.currentUser != null;
 
-  bool register(String email, String password) {
-    if (_users.containsKey(email)) {
-      return false; // User already exists
+  // Get current user email
+  String? get currentUserEmail => _auth.currentUser?.email;
+
+  // Get current user ID
+  String? get currentUserId => _auth.currentUser?.uid;
+
+  // Register with email and password
+  Future<UserCredential?> register(String email, String password) async {
+    try {
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return userCredential;
+    } on FirebaseAuthException catch (_) {
+      rethrow; // Rethrow to handle in the UI
     }
-    _users[email] = password;
-    return true;
   }
 
-  bool login(String email, String password) {
-    if (_users[email] == password) {
-      _currentUserEmail = email;
-      return true;
+  // Login with email and password
+  Future<UserCredential?> login(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return userCredential;
+    } on FirebaseAuthException catch (_) {
+      rethrow; // Rethrow to handle in the UI
     }
-    return false;
   }
 
-  void logout() {
-    _currentUserEmail = null;
+  // Reset password
+  Future<void> resetPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (_) {
+      rethrow; // Rethrow to handle in the UI
+    }
   }
-} 
+
+  // Logout
+  Future<void> logout() async {
+    await _auth.signOut();
+  }
+}

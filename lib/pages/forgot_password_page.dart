@@ -1,8 +1,11 @@
 // ignore_for_file: use_build_context_synchronously, prefer_const_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:researchpro/pages/login_page.dart';
+import 'package:researchpro/services/auth_service.dart';
+import 'package:researchpro/utils/validators.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -13,20 +16,41 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final emailController = TextEditingController();
+  final authService = AuthService();
+  String? emailError;
 
-  void resetPassword() {
+  void resetPassword() async {
+    // Reset error
+    setState(() {
+      emailError = null;
+    });
+
+    // Validate email
+    if (!Validators.isValidEmail(emailController.text)) {
+      setState(() {
+        emailError = 'Please enter a valid email address';
+      });
+      return;
+    }
+
     // Show loading circle
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => const Center(
         child: CircularProgressIndicator(),
       ),
     );
 
-    // Simulate password reset process
-    Future.delayed(const Duration(seconds: 2), () {
+    try {
+      // Send password reset email
+      await authService.resetPassword(emailController.text.trim());
+
       // Pop loading circle
-      Navigator.pop(context);
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+
       // Show success message
       Get.snackbar(
         'Success',
@@ -35,12 +59,51 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         backgroundColor: Colors.green,
         colorText: Colors.white,
       );
+
       // Navigate back to login page
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
+      if (context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      // Pop loading circle
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+
+      // Show error message
+      String errorMessage = 'Failed to send password reset email.';
+
+      if (e.code == 'user-not-found') {
+        errorMessage = 'No user found with this email address.';
+      } else if (e.code == 'invalid-email') {
+        errorMessage = 'The email address is not valid.';
+      }
+
+      Get.snackbar(
+        'Error',
+        errorMessage,
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
       );
-    });
+    } catch (e) {
+      // Pop loading circle
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+
+      // Show general error message
+      Get.snackbar(
+        'Error',
+        'An error occurred. Please try again.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
   }
 
   @override
@@ -93,6 +156,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           horizontal: 20,
                           vertical: 15,
                         ),
+                        errorText: emailError,
                       ),
                     ),
                   ),
@@ -162,4 +226,4 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       ),
     );
   }
-} 
+}

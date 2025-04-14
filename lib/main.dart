@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:researchpro/firebase_options.dart';
 import 'package:researchpro/pages/home_page.dart';
 import 'package:researchpro/pages/login_page.dart';
 import 'package:researchpro/services/auth_service.dart';
 import 'package:researchpro/screens/splash_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -46,7 +52,7 @@ class AuthWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authService = AuthService();
-    
+
     // Check if user is logged in
     if (authService.isLoggedIn) {
       return const HomePage();
