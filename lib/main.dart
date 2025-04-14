@@ -6,6 +6,7 @@ import 'package:researchpro/pages/home_page.dart';
 import 'package:researchpro/pages/login_page.dart';
 import 'package:researchpro/services/auth_service.dart';
 import 'package:researchpro/screens/splash_screen.dart';
+import 'package:researchpro/controllers/theme_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,29 +21,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    final themeController = Get.put(ThemeController());
+    
+    return Obx(() => GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.white,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
-          elevation: 4.0,
-          shadowColor: Colors.black26,
-          iconTheme: IconThemeData(color: Colors.black),
-          titleTextStyle: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      theme: themeController.lightTheme,
+      darkTheme: themeController.darkTheme,
+      themeMode: themeController.isDarkMode.value ? ThemeMode.dark : ThemeMode.light,
       initialRoute: '/splash',
       getPages: [
         GetPage(name: '/splash', page: () => const SplashScreen()),
         GetPage(name: '/home', page: () => const AuthWrapper()),
       ],
-    );
+    ));
   }
 }
 
