@@ -6,6 +6,7 @@ import 'package:researchpro/pages/forgot_password_page.dart';
 import 'package:researchpro/pages/home_page.dart';
 import 'package:researchpro/pages/register_page.dart';
 import 'package:researchpro/services/auth_service.dart';
+import 'package:researchpro/utils/validators.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -18,8 +19,33 @@ class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final authService = AuthService();
+  String? emailError;
+  String? passwordError;
+  bool showPassword = false;
 
   void signIn() {
+    // Reset errors
+    setState(() {
+      emailError = null;
+      passwordError = null;
+    });
+
+    // Validate email
+    if (!Validators.isValidEmail(emailController.text)) {
+      setState(() {
+        emailError = 'Please enter a valid email address';
+      });
+      return;
+    }
+
+    // Validate password
+    if (!Validators.isValidPassword(passwordController.text)) {
+      setState(() {
+        passwordError = 'Password must be at least 8 characters long and contain uppercase, lowercase, number and special character';
+      });
+      return;
+    }
+
     // Show loading circle
     showDialog(
       context: context,
@@ -90,6 +116,7 @@ class _LoginPageState extends State<LoginPage> {
                           horizontal: 20,
                           vertical: 15,
                         ),
+                        errorText: emailError,
                       ),
                     ),
                   ),
@@ -103,15 +130,27 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: TextField(
                       controller: passwordController,
-                      obscureText: true,
+                      obscureText: !showPassword,
                       decoration: InputDecoration(
                         hintText: 'Type your password',
                         prefixIcon: const Icon(Icons.lock_outline),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            showPassword ? Icons.visibility : Icons.visibility_off,
+                            color: Colors.grey,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              showPassword = !showPassword;
+                            });
+                          },
+                        ),
                         border: InputBorder.none,
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 20,
                           vertical: 15,
                         ),
+                        errorText: passwordError,
                       ),
                     ),
                   ),

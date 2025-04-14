@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:researchpro/pages/login_page.dart';
 import 'package:researchpro/services/auth_service.dart';
+import 'package:researchpro/utils/validators.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -17,8 +18,42 @@ class _RegisterPageState extends State<RegisterPage> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final authService = AuthService();
+  String? emailError;
+  String? passwordError;
+  bool showPassword = false;
+  bool showConfirmPassword = false;
 
   void register() {
+    // Reset errors
+    setState(() {
+      emailError = null;
+      passwordError = null;
+    });
+
+    // Validate email
+    if (!Validators.isValidEmail(emailController.text)) {
+      setState(() {
+        emailError = 'Please enter a valid email address';
+      });
+      return;
+    }
+
+    // Validate password
+    if (!Validators.isValidPassword(passwordController.text)) {
+      setState(() {
+        passwordError = 'Password must be at least 8 characters long and contain uppercase, lowercase, number and special character';
+      });
+      return;
+    }
+
+    // Check if passwords match
+    if (passwordController.text != confirmPasswordController.text) {
+      setState(() {
+        passwordError = 'Passwords do not match';
+      });
+      return;
+    }
+
     // Show loading circle
     showDialog(
       context: context,
@@ -26,19 +61,6 @@ class _RegisterPageState extends State<RegisterPage> {
         child: CircularProgressIndicator(),
       ),
     );
-
-    // Check if passwords match
-    if (passwordController.text != confirmPasswordController.text) {
-      Navigator.pop(context);
-      Get.snackbar(
-        'Error',
-        'Passwords do not match',
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-      return;
-    }
 
     // Try to register
     if (authService.register(emailController.text, passwordController.text)) {
@@ -110,6 +132,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           horizontal: 20,
                           vertical: 15,
                         ),
+                        errorText: emailError,
                       ),
                     ),
                   ),
@@ -123,15 +146,27 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     child: TextField(
                       controller: passwordController,
-                      obscureText: true,
+                      obscureText: !showPassword,
                       decoration: InputDecoration(
                         hintText: 'Type your password',
                         prefixIcon: const Icon(Icons.lock_outline),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            showPassword ? Icons.visibility : Icons.visibility_off,
+                            color: Colors.grey,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              showPassword = !showPassword;
+                            });
+                          },
+                        ),
                         border: InputBorder.none,
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 20,
                           vertical: 15,
                         ),
+                        errorText: passwordError,
                       ),
                     ),
                   ),
@@ -145,10 +180,21 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     child: TextField(
                       controller: confirmPasswordController,
-                      obscureText: true,
+                      obscureText: !showConfirmPassword,
                       decoration: InputDecoration(
                         hintText: 'Confirm your password',
                         prefixIcon: const Icon(Icons.lock_outline),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            showConfirmPassword ? Icons.visibility : Icons.visibility_off,
+                            color: Colors.grey,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              showConfirmPassword = !showConfirmPassword;
+                            });
+                          },
+                        ),
                         border: InputBorder.none,
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 20,
