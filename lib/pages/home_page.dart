@@ -13,54 +13,20 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  //text controller
-  final textController = TextEditingController();
-  final List<Map<String, dynamic>> posts = [];
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
   final authService = AuthService();
 
-  //post message
-  void postMessage() {
-    if (textController.text.isNotEmpty) {
-      setState(() {
-        posts.add({
-          'Message': textController.text,
-          'UserEmail': 'User',
-          'TimeStamp': DateTime.now(),
-          'Likes': [],
-        });
-        textController.clear();
-      });
-    }
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
   }
 
-  //handle like
-  void handleLike(String postId) {
-    setState(() {
-      final postIndex = int.parse(postId);
-      if (posts[postIndex]['Likes'].contains('user@gmail.com')) {
-        posts[postIndex]['Likes'].remove('user@gmail.com');
-      } else {
-        posts[postIndex]['Likes'].add('user@gmail.com');
-      }
-    });
-  }
-
-  //handle comment
-  void handleComment(String postId, String comment) {
-    // In a real app, you would add the comment to the post
-    // For demo purposes, we'll just show a snackbar
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Comment added: $comment')),
-    );
-  }
-
-  //handle delete
-  void handleDelete(String postId) {
-    setState(() {
-      final postIndex = int.parse(postId);
-      posts.removeAt(postIndex);
-    });
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   // handle logout
@@ -98,80 +64,32 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         backgroundColor: Colors.white,
+        bottom: TabBar(
+          controller: _tabController,
+          indicatorColor: Colors.blue,
+          indicatorWeight: 3,
+          labelColor: Colors.blue,
+          unselectedLabelColor: Colors.grey,
+          labelStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+          tabs: const [
+            Tab(text: 'Research Info'),
+            Tab(text: 'Scholarship Info'),
+          ],
+        ),
       ),
       drawer: MyDrawer(
         onProfileTap: goToProfilePage,
         onSignOut: handleLogout,
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Research Info button
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ResearchInfoPage(),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: const Text(
-                    'Research Info',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // Scholarship Info button
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ScholarshipInfoPage(),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: const Text(
-                    'Scholarship Info',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+      body: TabBarView(
+        controller: _tabController,
+        children: const [
+          ResearchInfoPage(),
+          ScholarshipInfoPage(),
+        ],
       ),
     );
   }
