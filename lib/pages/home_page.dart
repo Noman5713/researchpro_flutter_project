@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final authService = AuthService();
+  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -64,31 +65,116 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           ),
         ),
         backgroundColor: Colors.white,
-        bottom: TabBar(
-          controller: _tabController,
-          indicatorColor: Colors.blue,
-          indicatorWeight: 3,
-          labelColor: Colors.blue,
-          unselectedLabelColor: Colors.grey,
-          labelStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-          tabs: const [
-            Tab(text: 'Research Info'),
-            Tab(text: 'Scholarship Info'),
-          ],
-        ),
       ),
       drawer: MyDrawer(
         onProfileTap: goToProfilePage,
         onSignOut: handleLogout,
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: const [
-          ResearchInfoPage(),
-          ScholarshipInfoPage(),
+      body: Column(
+        children: [
+          Container(
+            height: 60,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  spreadRadius: 1,
+                  blurRadius: 3,
+                  offset: const Offset(0, 1),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        _currentIndex = 0;
+                        _tabController.animateTo(0);
+                      });
+                    },
+                    child: Container(
+                      height: double.infinity,
+                      decoration: BoxDecoration(
+                        color: _currentIndex == 0 ? Colors.blue.withOpacity(0.1) : Colors.transparent,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.science,
+                            color: _currentIndex == 0 ? Colors.blue : Colors.grey,
+                            size: 24,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            'Research',
+                            style: TextStyle(
+                              color: _currentIndex == 0 ? Colors.blue : Colors.grey,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 30,
+                  width: 1,
+                  color: Colors.grey.withOpacity(0.3),
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        _currentIndex = 1;
+                        _tabController.animateTo(1);
+                      });
+                    },
+                    child: Container(
+                      height: double.infinity,
+                      decoration: BoxDecoration(
+                        color: _currentIndex == 1 ? Colors.blue.withOpacity(0.1) : Colors.transparent,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.school,
+                            color: _currentIndex == 1 ? Colors.blue : Colors.grey,
+                            size: 24,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            'Scholarship',
+                            style: TextStyle(
+                              color: _currentIndex == 1 ? Colors.blue : Colors.grey,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: const [
+                ResearchInfoPage(),
+                ScholarshipInfoPage(),
+              ],
+            ),
+          ),
         ],
       ),
     );

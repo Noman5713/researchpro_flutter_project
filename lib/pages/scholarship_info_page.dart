@@ -193,18 +193,6 @@ class _ScholarshipInfoPageState extends State<ScholarshipInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          "Scholarship Info",
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
-        backgroundColor: Colors.white,
-      ),
       body: SafeArea(
         child: Column(
           children: [

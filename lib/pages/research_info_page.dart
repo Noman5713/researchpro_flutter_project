@@ -180,22 +180,9 @@ class _ResearchInfoPageState extends State<ResearchInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          "Research Info",
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
-        backgroundColor: Colors.white,
-      ),
       body: SafeArea(
         child: Column(
           children: [
-            //the wall
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
