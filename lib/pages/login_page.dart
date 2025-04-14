@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:researchpro_flutter_project/components/button.dart';
-import 'package:researchpro_flutter_project/components/text.field.dart';
+import 'package:researchpro/components/button.dart';
+import 'package:researchpro/components/text_field.dart';
 
 class LoginPage extends StatefulWidget {
   final Function()? onTap;
@@ -47,7 +47,7 @@ class _LoginpageState extends State<LoginPage> {
                 MyTextField(
                   controller: emailTextController,
                   hintText: 'Émail',
-                  obscureText: false,
+                  obsecureText: false,
                 ),
 
                 const SizedBox(height: 10),
@@ -56,7 +56,7 @@ class _LoginpageState extends State<LoginPage> {
                 MyTextField(
                   controller: passwordTextController,
                   hintText: 'Password',
-                  obscureText: true,
+                  obsecureText: true,
                 ),
 
                 SizedBox(height: 25),

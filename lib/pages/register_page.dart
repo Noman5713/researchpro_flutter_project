@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:researchpro/components/text_field.dart';
 import '../components/button.dart';
 import '../components/text.field.dart';
 
@@ -48,7 +49,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 MyTextField(
                   controller: emailTextController,
                   hintText: 'Émail',
-                  obscureText: false,
+                  obsecureText: false,
                 ),
 
                 const SizedBox(height: 10),
@@ -57,7 +58,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 MyTextField(
                   controller: passwordTextController,
                   hintText: 'Password',
-                  obscureText: true,
+                  obsecureText: true,
                 ),
 
                 const SizedBox(height: 10),
@@ -66,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 MyTextField(
                   controller: confirmpasswordTextController,
                   hintText: 'Confirm Password',
-                  obscureText: true,
+                  obsecureText: true,
                 ),
 
                 SizedBox(height: 25),

@@ -16,7 +16,8 @@ class _ResearchInfoPageState extends State<ResearchInfoPage> {
   final textController = TextEditingController();
   final List<Map<String, dynamic>> posts = [
     {
-      'Message': '📢 IEEE International Conference on Computer Vision (ICCV) 2024\n\nImportant Dates:\n• Abstract Submission: March 15, 2025\n• Full Paper Submission: March 22, 2025\n• Author Notification: July 15, 2025\n• Camera Ready: August 15, 2025\n\nVenue: Paris, France\nConference Dates: October 27 - November 2, 2025\n\n#ComputerVision #ICCV2025 #ResearchConference',
+      'Message':
+          '📢 IEEE International Conference on Computer Vision (ICCV) 2024\n\nImportant Dates:\n• Abstract Submission: March 15, 2025\n• Full Paper Submission: March 22, 2025\n• Author Notification: July 15, 2025\n• Camera Ready: August 15, 2025\n\nVenue: Paris, France\nConference Dates: October 27 - November 2, 2025\n\n#ComputerVision #ICCV2025 #ResearchConference',
       'UserEmail': 'IEEE Computer Society',
       'TimeStamp': DateTime.now().subtract(const Duration(hours: 2)),
       'Likes': ['user1@example.com', 'user2@example.com', 'user3@example.com'],
@@ -27,24 +28,28 @@ class _ResearchInfoPageState extends State<ResearchInfoPage> {
           'time': DateTime.now().subtract(const Duration(hours: 1)),
         },
         {
-          'text': 'Yes, hybrid participation will be available. Details will be announced soon.',
+          'text':
+              'Yes, hybrid participation will be available. Details will be announced soon.',
           'user': 'IEEE Computer Society',
           'time': DateTime.now().subtract(const Duration(minutes: 30)),
         },
         {
-          'text': 'Looking forward to submitting our work on real-time object detection!',
+          'text':
+              'Looking forward to submitting our work on real-time object detection!',
           'user': 'Abdullah Al Noman',
           'time': DateTime.now().subtract(const Duration(minutes: 15)),
         },
         {
-          'text': 'Will there be a special session on medical imaging applications?',
+          'text':
+              'Will there be a special session on medical imaging applications?',
           'user': 'Prapti',
           'time': DateTime.now().subtract(const Duration(minutes: 5)),
         },
       ],
     },
     {
-      'Message': '🚨 Call for Papers: Nature Machine Intelligence\n\nSpecial Issue: "AI for Sustainable Development"\n\nSubmission Deadline: April 30, 2025\nFirst Decision: June 15, 2025\nFinal Decision: August 1, 2025\nPublication: October 2025\n\nTopics of Interest:\n• AI for Climate Change\n• Sustainable Agriculture\n• Renewable Energy Optimization\n• Environmental Monitoring\n\n#NatureMachineIntelligence #SustainableAI #ResearchJournal',
+      'Message':
+          '🚨 Call for Papers: Nature Machine Intelligence\n\nSpecial Issue: "AI for Sustainable Development"\n\nSubmission Deadline: April 30, 2025\nFirst Decision: June 15, 2025\nFinal Decision: August 1, 2025\nPublication: October 2025\n\nTopics of Interest:\n• AI for Climate Change\n• Sustainable Agriculture\n• Renewable Energy Optimization\n• Environmental Monitoring\n\n#NatureMachineIntelligence #SustainableAI #ResearchJournal',
       'UserEmail': 'Nature Publishing Group',
       'TimeStamp': DateTime.now().subtract(const Duration(days: 1)),
       'Likes': ['user1@example.com', 'user4@example.com', 'user5@example.com'],
@@ -55,12 +60,14 @@ class _ResearchInfoPageState extends State<ResearchInfoPage> {
           'time': DateTime.now().subtract(const Duration(hours: 20)),
         },
         {
-          'text': 'The recommended length is 8-12 pages, including references. Please check our submission guidelines for details.',
+          'text':
+              'The recommended length is 8-12 pages, including references. Please check our submission guidelines for details.',
           'user': 'Nature Publishing Group',
           'time': DateTime.now().subtract(const Duration(hours: 18)),
         },
         {
-          'text': 'Our team has been working on AI for precision agriculture. This special issue is perfect timing!',
+          'text':
+              'Our team has been working on AI for precision agriculture. This special issue is perfect timing!',
           'user': 'Eiamin Hassan',
           'time': DateTime.now().subtract(const Duration(hours: 12)),
         },
@@ -70,17 +77,24 @@ class _ResearchInfoPageState extends State<ResearchInfoPage> {
           'time': DateTime.now().subtract(const Duration(hours: 8)),
         },
         {
-          'text': 'Yes, we welcome both original research and review papers on the specified topics.',
+          'text':
+              'Yes, we welcome both original research and review papers on the specified topics.',
           'user': 'Nature Publishing Group',
           'time': DateTime.now().subtract(const Duration(hours: 6)),
         },
       ],
     },
     {
-      'Message': '📝 ACM SIGCHI Conference on Human Factors in Computing Systems (CHI) 2025\n\nImportant Dates:\n• Abstract Submission: September 15, 2025\n• Full Paper Submission: September 22, 2025\n• Author Notification: January 15, 2026\n• Camera Ready: February 15, 2026\n\nVenue: Honolulu, Hawaii, USA\nConference Dates: May 11-16, 2026\n\n#HCI #CHI2024 #ResearchConference',
+      'Message':
+          '📝 ACM SIGCHI Conference on Human Factors in Computing Systems (CHI) 2025\n\nImportant Dates:\n• Abstract Submission: September 15, 2025\n• Full Paper Submission: September 22, 2025\n• Author Notification: January 15, 2026\n• Camera Ready: February 15, 2026\n\nVenue: Honolulu, Hawaii, USA\nConference Dates: May 11-16, 2026\n\n#HCI #CHI2024 #ResearchConference',
       'UserEmail': 'ACM SIGCHI',
       'TimeStamp': DateTime.now().subtract(const Duration(days: 2)),
-      'Likes': ['user2@example.com', 'user3@example.com', 'user6@example.com', 'user7@example.com'],
+      'Likes': [
+        'user2@example.com',
+        'user3@example.com',
+        'user6@example.com',
+        'user7@example.com'
+      ],
       'Comments': [
         {
           'text': 'What is the expected acceptance rate this year?',
@@ -88,7 +102,8 @@ class _ResearchInfoPageState extends State<ResearchInfoPage> {
           'time': DateTime.now().subtract(const Duration(days: 1)),
         },
         {
-          'text': 'The acceptance rate typically ranges between 20-25%. We encourage high-quality submissions in all areas of HCI.',
+          'text':
+              'The acceptance rate typically ranges between 20-25%. We encourage high-quality submissions in all areas of HCI.',
           'user': 'ACM SIGCHI',
           'time': DateTime.now().subtract(const Duration(hours: 12)),
         },
@@ -98,12 +113,14 @@ class _ResearchInfoPageState extends State<ResearchInfoPage> {
           'time': DateTime.now().subtract(const Duration(hours: 8)),
         },
         {
-          'text': 'Yes, we\'re planning several workshops including one on accessibility. The call for workshops will be announced next month.',
+          'text':
+              'Yes, we\'re planning several workshops including one on accessibility. The call for workshops will be announced next month.',
           'user': 'ACM SIGCHI',
           'time': DateTime.now().subtract(const Duration(hours: 6)),
         },
         {
-          'text': 'Looking forward to presenting our work on gesture-based interfaces!',
+          'text':
+              'Looking forward to presenting our work on gesture-based interfaces!',
           'user': 'Prantor',
           'time': DateTime.now().subtract(const Duration(hours: 4)),
         },
@@ -252,4 +269,4 @@ class _ResearchInfoPageState extends State<ResearchInfoPage> {
       ),
     );
   }
-} 
+}
