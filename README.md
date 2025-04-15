@@ -14,10 +14,7 @@
 
 ## 🎥 App Demo Video
 
-> 👉 *Drag and drop your app demo video below this line*
-
-[![App Demo](#)](#)
-
+https://github.com/user-attachments/assets/86c50d66-64fa-4913-89fb-03b6b7735e86
 ---
 
 ## 📄 Project Report
