@@ -146,6 +146,14 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  // App Logo
+                  Image.asset(
+                    'assets/images/app_logo.png',
+                    height: 100,
+                    width: 100,
+                  ),
+                  const SizedBox(height: 20),
+                  
                   // Title
                   const Text(
                     "Register",
