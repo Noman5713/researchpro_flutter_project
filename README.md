@@ -1,105 +1,38 @@
-# ResearchPro - Research Management Platform
+# ResearchPro
 
-ResearchPro is a comprehensive research management platform built with Flutter, designed to help researchers and academics organize, manage, and collaborate on their research projects.
+**ResearchPro** is a Flutter-based cross-platform app that helps users discover, manage, and share research content. It includes scholarship listings, social login, and Firebase integration for secure data handling. The app fosters academic collaboration and improves access to research with a modern UI and multi-platform support.
 
-## Features
+---
 
-- 🔐 **Secure Authentication**
-  - Email/Password login
-  - Social authentication (Google, LinkedIn)
-  - Secure user management
+## 📱 App Screenshots
 
-- 📚 **Research Management**
-  - Document organization
-  - Project tracking
-  - Research data management
-  - Real-time collaboration
+> 👉 *Drag and drop your app screenshots below this line*
 
-- 📱 **Cross-Platform Support**
-  - Android
-  - iOS
-  - Web
-  - Windows
-  - Linux
-  - macOS
+![Screenshot 1](#)  
+![Screenshot 2](#)
 
-- 🔄 **Real-time Sync**
-  - Cloud-based data storage
-  - Offline capabilities
-  - Automatic synchronization
+---
 
-## Tech Stack
+## 🎥 App Demo Video
 
-- **Frontend**: Flutter (Dart)
-- **State Management**: GetX
-- **Backend**: Firebase
-  - Firebase Authentication
-  - Cloud Firestore
-  - Firebase Core
+> 👉 *Drag and drop your app demo video below this line*
 
-## Prerequisites
+[![App Demo](#)](#)
 
-- Flutter SDK (>=3.3.0)
-- Dart SDK (>=3.3.0)
-- Firebase account
-- Android Studio / Xcode (for mobile development)
-- VS Code (recommended IDE)
+---
 
-## Installation
+## 📄 Project Report
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/researchpro_flutter_project.git
-   cd researchpro_flutter_project
-   ```
+Here’s the detailed report of the project:  
+👉 [View Report](https://drive.google.com/file/d/1btMcRZSJMRKOADGCBSM-QU3xFBrXKeWd/view)
 
-2. **Install dependencies**
-   ```bash
-   flutter pub get
-   ```
+---
 
-3. **Configure Firebase**
-   - Create a new Firebase project
-   - Add your Firebase configuration to `lib/firebase_options.dart`
-   - Enable Authentication and Firestore in Firebase Console
+## 📦 Release APK
 
-4. **Run the application**
-   ```bash
-   flutter run
-   ```
+> 👉 *Drag and drop your release APK file below this line*
 
-## Project Structure
+[Download APK](https://drive.google.com/file/d/1d0tRvqvGFX4NfsimqXCHwnakICo8D6a0/view?usp=sharing)
 
-```
-lib/
-├── components/     # Reusable UI components
-├── controllers/    # GetX controllers
-├── helper/         # Helper classes and functions
-├── pages/          # Application pages
-├── screens/        # UI screens
-├── services/       # Backend service integrations
-├── utils/          # Utility functions
-└── main.dart       # Application entry point
-```
+---
 
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Support
-
-For support, email support@researchpro.com or open an issue in the repository.
-
-## Acknowledgments
-
-- Flutter team for the amazing framework
-- Firebase for backend services
-- GetX for state management
