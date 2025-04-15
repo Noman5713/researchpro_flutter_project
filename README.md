@@ -14,8 +14,7 @@
 
 ## 🎥 App Demo Video
 
-https://github.com/user-attachments/assets/86c50d66-64fa-4913-89fb-03b6b7735e86
----
+https://github.com/user-attachments/assets/76b4ef30-2164-4f34-a353-128f44b58eb0
 
 ## 📄 Project Report
 
@@ -25,8 +24,6 @@ Here’s the detailed report of the project:
 ---
 
 ## 📦 Release APK
-
-> 👉 *Drag and drop your release APK file below this line*
 
 [Download APK](https://drive.google.com/file/d/1d0tRvqvGFX4NfsimqXCHwnakICo8D6a0/view?usp=sharing)
 
